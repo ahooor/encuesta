@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<div class="container">
+    <div class="row mt-5">
+        <div class="text-center">
+            <h1>Encuesta categories:</h1>
+            <div class="d-flex justify-content-center">
+            {% for topic in topics %}
+                <div class="p-2">
+                    <a class="btn btn-secondary btn-lg" href="/encuesta/categories/{{ topic.id }}">{{ topic.topic_name }}</a>
+                </div>
+            {% endfor %}
+        </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
