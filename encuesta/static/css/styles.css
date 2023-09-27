@@ -23,15 +23,28 @@ p {
     border-radius: 5px;
 }
 
+.primary-button {
+    display: inline-block;
+    padding: 10px 20px; /* Adjust padding for size */
+    background-color: #007bff; /* Primary button color */
+    color: #fff; /* Text color */
+    border: none;
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px; /* Adjust font size */
+}
+
 .btn-primary {
-    background-color: rgb(139, 235, 139);
+    background-color: rgb(139, 145, 235);
     color: white;
     border: none;
     margin-right: 10px;
 }
 
 .btn-secondary {
-    background-color: #ddd; /* Light gray */
+    background-color: #ffffff00;
     color: #333;
-    border: none;
+    border: ;
 }
