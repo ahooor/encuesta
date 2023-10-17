@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="flex flex-col gap-12 md:gap-16 rounded-2xl p-8 md:p-16">
+    <div class="flex flex-col items-center ">
+        <h1
+            class="flex gap-4 justify-center items-center w-full md:w-auto text-4xl md:text-6xl rounded-lg font-bold tracking-widest bg-black/25 px-4 py-2 text-pink-300">
+            ENCUESTA
+        </h1>
+    </div>
+
+
+    <div class="flex flex-col gap-8 justify-center items-center">
+
+        <h2 class="text-center w-full md:w-auto text-3xl md:text-4xl rounded-lg bg-black/25 mx-auto px-4 py-2">
+            Enter your name
+        </h2>
+
+        <form method="post"
+            class="flex flex-col justify-center items-center gap-4 md:gap-8 max-w-xl w-full">
+
+            {% csrf_token %}
+
+            <input type="text" name="name"
+                class="bg-fuchsia-300 w-full appearance-none border-2 border-transparent rounded-lg w-full py-2 px-4 text-purple-900 text-3xl md:text-4xl text-center focus:bg-fuchsia-300 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">
+
+            {% if errors.name %}
+
+            Mistake
+
+            {% endif %}
+
+            <button type="submit"
+                class="flex justify-between items-center gap-4 w-full md:w-auto bg-green-300/25 hover:bg-green-400/25 border-2 border-green-300 py-2 text-white font-medium px-4 text-lg uppercase rounded-lg">
+                <span>Continue</span>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                </svg>
+            </button>
+
+
+            {{questions}}
+
+
+        </form>
+
+    </div>
+</div>
+{% endblock %}

@@ -1,18 +1,37 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
-<div class="container">
-    <div class="row mt-5">
-        <div class="text-center">
-            <h1>Encuesta categories:</h1>
-            <div class="d-flex justify-content-center">
+
+<div class="flex flex-col gap-12 md:gap-16 rounded-2xl p-8 md:p-16">
+    <div class="flex flex-col items-center ">
+        <h1 class="flex gap-4 justify-center items-center w-full md:w-auto text-4xl md:text-6xl rounded-lg font-bold tracking-widest bg-black/25 px-4 py-2 text-pink-300">
+            ENCUESTA
+        </h1>
+    </div>
+
+
+    <div class="flex flex-col gap-8">
+
+        <h2 class="text-center text-3xl w-full md:w-auto md:text-4xl rounded-lg bg-black/25 mx-auto px-4 py-2">
+            Choose category
+        </h2>
+
+        <div class="flex flex-wrap justify-center gap-4 md:gap-8">
+
             {% for topic in topics %}
-                <div class="p-2">
-                    <a class="btn btn-secondary btn-lg" href="/encuesta/categories/{{ topic.id }}">{{ topic.topic_name }}</a>
-                </div>
+                <a href="/encuesta/login?topic={{ topic.id }}" class="flex w-full md:w-auto justify-between items-center gap-4 bg-cyan-300/25 hover:bg-cyan-400/25 border-2 border-cyan-300 py-2 text-white font-medium py-2 px-4 text-lg uppercase rounded-lg">
+                    <span>{{ topic.topic_name }}</span>
+
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 md:hidden">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                    </svg>
+
+                </a>
             {% endfor %}
+
+
         </div>
-        </div>
+
     </div>
 </div>
 {% endblock %}

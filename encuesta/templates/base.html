@@ -4,17 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Your Website Title</title>
-    {% load bootstrap5 %}
     {% load static %}
-    {% bootstrap_css %}
-    {% bootstrap_javascript %}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap"
+          rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
 </head>
 
-<body>
-    {% block content %}{% endblock %}
+<body class="min-h-screen bg-gradient-to-br from-purple-500 to-pink-500 ">
+<div class="bg-bubbles text-purple-300 min-h-screen ">
+    <div class="container mx-auto">
+        {% block content %}{% endblock %}
+    </div>
+</div>
 </body>
 </html>

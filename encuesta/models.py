@@ -7,12 +7,14 @@ class Topic(models.Model):
     def __str__(self):
         return self.topic_name
 
+
 class Question(models.Model):
     question_text = models.CharField(max_length=200)
     topic = models.ManyToManyField(Topic, blank=True)
 
     def __str__(self):
         return self.question_text
+
 
 class Answer(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
@@ -21,3 +23,5 @@ class Answer(models.Model):
 
     def __str__(self):
         return self.answer_text
+    
+
