@@ -1,11 +1,12 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseNotAllowed, HttpResponseRedirect
 from django.template import loader
-from encuesta.models import Answer, Question, Topic
+from encuesta.models import Answer, Question, Topic, Result
 
 
 def index(request):
     return render(request, 'index.html')
+
 
 def login(request):
 
@@ -25,7 +26,11 @@ def login(request):
         request.session['times_up'] = 0
         request.session['fails'] = 0
 
-        questions = Question.objects.values_list('id', flat=True).order_by('?')
+        if('topic' in request.GET):
+            
+            questions = Question.objects.filter(topic__id=request.GET['topic']).values_list('id', flat=True).order_by('?')
+        else:
+            questions = Question.objects.values_list('id', flat=True).order_by('?')
 
         request.session['questions'] = list(questions)
 
@@ -35,16 +40,18 @@ def login(request):
 
 
 def quiz(request):
-    if 'user' not in request.session:
-        return  HttpResponseRedirect("/encuesta/login");
 
+    if 'user' not in request.session:
+        return  HttpResponseRedirect("/encuesta/login")
+    
     if request.method == 'POST':
-        
-        if 'answer' in request.POST:
+        print(request.POST["answer"])
+        if 'answer' in request.POST and len(request.POST['answer']) > 0 and request.POST["answer"] != '0':
             question_id = request.POST["question"]
             answer_id = request.POST["answer"]
 
             answer = Answer.objects.filter(id=answer_id, question_id=question_id).first()
+        
 
             if answer.is_correct:
                 request.session['correct_answers'] = request.session['correct_answers'] + 1
@@ -61,6 +68,10 @@ def quiz(request):
         return  HttpResponseRedirect("/encuesta/quiz/results")
 
     questions = request.session['questions'];
+
+    if(len(questions) == 0):
+        return  HttpResponseRedirect("/encuesta/quiz/results")
+
     question_id = questions.pop()
     request.session['questions'] = questions;
 
@@ -70,6 +81,7 @@ def quiz(request):
     context = {
         'question': question,
         'answers': answers,
+        'score': request.session['correct_answers'] * 10,
         'correct_answers': request.session['correct_answers'],
         'incorrect_answers': request.session['incorrect_answers'],
         'times_up': request.session['times_up'],
@@ -80,15 +92,26 @@ def quiz(request):
 
 
 def results(request):
-    template = loader.get_template('results.html')
+
     context = {
         'user': request.session['user'],
+        'score': request.session['correct_answers'] * 10,
         'correct_answers': request.session['correct_answers'],
         'incorrect_answers': request.session['incorrect_answers'],
         'times_up': request.session['times_up'],
         'fails': request.session['fails']
     }
-    return HttpResponse(template.render(context, request))
+
+    username = request.session['user']
+    score = request.session['correct_answers'] * 10
+
+    if username and score is not None:
+        result = Result(username=username, score=score)
+        result.save()
+    
+    request.session.flush()
+
+    return render(request, 'results.html', context)
 
 
 def categories(request):
@@ -100,10 +123,10 @@ def categories(request):
     return HttpResponse(template.render(context, request))
 
 
-def category(request, id):
-    topic = Topic.objects.filter(id=id).first()
-    template = loader.get_template('category.html')
+def highscores(request):
+    results = Result.objects.order_by('-score')[:10]
     context = {
-        'topic': topic,
+        'results': results,
     }
-    return HttpResponse(template.render(context, request))
+    return render(request, 'highscores.html', context)
+
