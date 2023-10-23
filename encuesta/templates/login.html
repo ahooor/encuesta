@@ -15,8 +15,7 @@
             Enter your name
         </h2>
 
-        <form method="post"
-            class="flex flex-col justify-center items-center gap-4 md:gap-8 max-w-xl w-full">
+        <form method="post" class="flex flex-col justify-center items-center gap-4 md:gap-8 max-w-xl w-full">
 
             {% csrf_token %}
 
@@ -25,7 +24,7 @@
 
             {% if errors.name %}
 
-            Mistake
+                Invalid Name
 
             {% endif %}
 

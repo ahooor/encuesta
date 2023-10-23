@@ -27,7 +27,6 @@ def login(request):
         request.session['fails'] = 0
 
         if('topic' in request.GET):
-            
             questions = Question.objects.filter(topic__id=request.GET['topic']).values_list('id', flat=True).order_by('?')
         else:
             questions = Question.objects.values_list('id', flat=True).order_by('?')
@@ -45,7 +44,6 @@ def quiz(request):
         return  HttpResponseRedirect("/encuesta/login")
     
     if request.method == 'POST':
-        print(request.POST["answer"])
         if 'answer' in request.POST and len(request.POST['answer']) > 0 and request.POST["answer"] != '0':
             question_id = request.POST["question"]
             answer_id = request.POST["answer"]
@@ -120,13 +118,15 @@ def categories(request):
     context = {
         'topics': topics,
     }
+
     return HttpResponse(template.render(context, request))
 
 
 def highscores(request):
-    results = Result.objects.order_by('-score')[:10]
+    results = Result.objects.order_by('-score')[:5]
     context = {
         'results': results,
     }
+
     return render(request, 'highscores.html', context)
 
